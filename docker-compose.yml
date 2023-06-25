@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./hello_django
+    image: naytar/django-on-docker
+    volumes:
+      - ./hello_django/:/usr/src/hello_django/
+      - ./hello_django/static/:/usr/src/hello_django/static/
+    environment:
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - POSTGRES_ENGINE=django.db.backends.postgresql
+      - POSTGRES_DB=hello_django_dev
+      - POSTGRES_USER=hello_django
+      - POSTGRES_PASSWORD=hello_django
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - DATABASE=postgres
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=hello_django
+      - POSTGRES_PASSWORD=hello_django
+      - POSTGRES_DB=hello_django_dev
+
+volumes:
+  postgres_data:
+  static_volume:
