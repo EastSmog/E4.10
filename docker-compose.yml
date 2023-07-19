@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   web:
-    build: ./hello_django
     image: naytar/django-on-docker
+    restart: always
     volumes:
       - ./hello_django/:/usr/src/hello_django/
       - ./hello_django/static/:/usr/src/hello_django/static/
